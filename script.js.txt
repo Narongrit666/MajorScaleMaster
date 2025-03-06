@@ -1,0 +1,89 @@
+const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "Db", "Eb", "Gb", "Ab", "Bb"];
+const majorScales = {
+    "C Major": ["C", "D", "E", "F", "G", "A", "B", "C"],
+    "G Major": ["G", "A", "B", "C", "D", "E", "F#", "G"],
+    "D Major": ["D", "E", "F#", "G", "A", "B", "C#", "D"],
+    "A Major": ["A", "B", "C#", "D", "E", "F#", "G#", "A"],
+    "E Major": ["E", "F#", "G#", "A", "B", "C#", "D#", "E"],
+    "B Major": ["B", "C#", "D#", "E", "F#", "G#", "A#", "B"],
+    "F# Major": ["F#", "G#", "A#", "B", "C#", "D#", "E#", "F#"],
+    "Db Major": ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db"],
+    "Ab Major": ["Ab", "Bb", "C", "Db", "Eb", "F", "G", "Ab"],
+    "Eb Major": ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"],
+    "Bb Major": ["Bb", "C", "D", "Eb", "F", "G", "A", "Bb"],
+    "F Major": ["F", "G", "A", "Bb", "C", "D", "E", "F"]
+};
+let currentScale;
+
+function startGame() {
+    const keys = Object.keys(majorScales);
+    currentScale = keys[Math.floor(Math.random() * keys.length)];
+    document.getElementById("scale-name").textContent = currentScale;
+    generateDropZone();
+    generateNotes();
+}
+
+function generateDropZone() {
+    let dropZoneLabels = document.getElementById("drop-zone-labels");
+    let dropZone = document.getElementById("drop-zone");
+    dropZoneLabels.innerHTML = "";
+    dropZone.innerHTML = "";
+    for (let i = 1; i <= 8; i++) {
+        let label = document.createElement("div");
+        label.textContent = i;
+        label.classList.add("label");
+        dropZoneLabels.appendChild(label);
+        let box = document.createElement("div");
+        box.classList.add("note");
+        box.ondrop = (event) => drop(event, box);
+        box.ondragover = (event) => event.preventDefault();
+        dropZone.appendChild(box);
+    }
+}
+
+function generateNotes() {
+    const container = document.getElementById("note-container");
+    container.innerHTML = "";
+    notes.forEach(note => {
+        let noteDiv = document.createElement("div");
+        noteDiv.textContent = note;
+        noteDiv.classList.add("note");
+        noteDiv.draggable = true;
+        noteDiv.ondragstart = (event) => event.dataTransfer.setData("text", note);
+        noteDiv.onclick = () => playSound(note);
+        container.appendChild(noteDiv);
+    });
+}
+
+function drop(event, target) {
+    event.preventDefault();
+    let data = event.dataTransfer.getData("text");
+    target.textContent = data;
+    playSound(data);
+}
+
+function checkAnswer() {
+    let dropZone = document.getElementById("drop-zone").children;
+    let userAnswer = Array.from(dropZone).map(div => div.textContent);
+    let correctAnswer = majorScales[currentScale];
+    let result = JSON.stringify(userAnswer) === JSON.stringify(correctAnswer) ? "ถูกต้อง!" : "ลองใหม่!";
+    document.getElementById("result").textContent = result;
+}
+
+function resetNotes() {
+    document.getElementById("drop-zone").innerHTML = "";
+    generateDropZone();
+}
+
+function nextQuestion() {
+    document.getElementById("drop-zone").innerHTML = "";
+    document.getElementById("result").textContent = "";
+    startGame();
+}
+
+function playSound(note) {
+    let audio = new Audio(`sounds/${note}.mp3`);
+    audio.play();
+}
+
+startGame();

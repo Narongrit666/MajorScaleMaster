@@ -1,0 +1,7 @@
+body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; }
+.note-container { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
+.note { padding: 10px; margin: 5px; border: 1px solid black; cursor: grab; background: lightgreen; display: inline-block; }
+.drop-zone-container { position: relative; margin-top: 20px; }
+.drop-zone { display: flex; justify-content: center; gap: 10px; margin-top: 10px; min-height: 50px; border: 2px dashed black; padding: 10px; }
+#drop-zone-labels { display: flex; justify-content: center; gap: 10px; }
+.label { font-size: 14px; color: blue; }

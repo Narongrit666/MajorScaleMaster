@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Major Scale Master</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Major Scale Master - <span id="question-number">ข้อที่ 1 / 15</span></h1>
+    <p>ลากและวางโน้ตให้ถูกต้องตามลำดับ</p>
+    <h2 id="scale-name">C Major</h2>
+    <div class="drop-zone-container">
+        <div id="drop-zone-labels"></div>
+        <div class="drop-zone" id="drop-zone"></div>
+    </div>
+    <div class="note-container" id="note-container"></div>
+    <button onclick="resetNotes()">รีเซ็ต</button>
+    <button onclick="checkAnswer()">ตรวจสอบ</button>
+    <button onclick="nextQuestion()">ถัดไป</button>
+    <p id="result"></p>
+    <script src="script.js"></script>
+</body>
+</html>
